@@ -1,19 +1,35 @@
-// URL où se trouve le répertoire "server" sur mmi.unilim.fr
-let HOST_URL = "..";//"http://mmi.unilim.fr/~????"; // CHANGE THIS TO MATCH YOUR CONFIG
+// ============================================================
+// dataMovie.js - Module pour réclupérer les films du serveur
+// ============================================================
 
+// URL du serveur (relative, fonctionne en local ET en production)
+let HOST_URL = "..";
+
+// Objet contenant les données des films
 let DataMovie = {};
 
+/**
+ * Récupère les films depuis le serveur PHP
+ * @return Promise - Retourne les films en JSON
+ */
 DataMovie.requestMovies = async function(){
-    // fetch permet d'envoyer une requête HTTP à l'URL spécifiée. 
-    // L'URL est construite en concaténant HOST_URL à "/server/script.php?direction=" et la valeur de la variable dir. 
-    // L'URL finale dépend de la valeur de HOST_URL et de dir.
-    let answer = await fetch(HOST_URL + "/server/script.php?todo=readmovies)");
-    // answer est la réponse du serveur à la requête fetch.
-    // On utilise ensuite la méthode json() pour extraire de cette réponse les données au format JSON.
-    // Ces données (data) sont automatiquement converties en objet JavaScript.
-    let data = await answer.json();
-    // Enfin, on retourne ces données.
-    return data;
+    try {
+        // Faire une requête HTTP GET vers le serveur PHP
+        let answer = await fetch(HOST_URL + "/server/script.php?todo=readmovies");
+        
+        // Vérifier si la requête s'est bien déroulée
+        if (!answer.ok) {
+            throw new Error("Le serveur a retourné une erreur");
+        }
+        
+        // Convertir la réponse en JSON et la retourner
+        let data = await answer.json();
+        return data;
+    } catch (error) {
+        // En cas d'erreur, afficher un message en console
+        console.error("Erreur lors du chargement des films:", error);
+        return [];
+    }
 }
 
 export {DataMovie};

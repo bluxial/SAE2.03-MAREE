@@ -1,51 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <title>SAE2.03 APP</title>
+    <title>SAE2.03 - Films</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/base.css" />
   </head>
 
   <body>
+    <!-- En-tête (navbar) -->
     <header id="header"></header>
 
+    <!-- Contenu principal (films) -->
     <section id="content"></section>
 
     <script type="module">
+      // ============================================================
+      // SCRIPT PRINCIPAL - Gestion de l'application
+      // ============================================================
+
+      // Importer les composants
       import { NavBar } from "./component/NavBar/script.js";
+      import { Movie } from "./component/Movie/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
 
-      // Controleur
-      // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
-      // Une fois l'application terminée, on pourrait remettre let C.
-      window.C = {};
-
-      C.handlerAbout = function () {
-        alert(
-          "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
-        );
-      };
-
-      C.start = function () {
-        V.renderNavBar("C.handlerAbout()");
-      };
-
-      // Vue (contient tout ce qui est relatif à l'affichage)
-      window.V = {};
+      // ============================================================
+      // CONTRÔLEUR - Gère la logique de l'application
+      // ============================================================
+      let C = {};
 
       /**
-       * V.renderNavBar
-       *
-       * Cette fonction est responsable de l'affichage de la barre de navigation (NavBar).
-       * Elle sélectionne l'élément HTML avec l'ID "header" et y insère le contenu
-       * formaté par le composant NavBar.
+       * Bouton About - Affiche une alerte
        */
-      V.renderNavBar = function (hAbout) {
-        let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(hAbout);
+      C.handlerAbout = function () {
+        alert("SAE2.03 - Application films - Édition 2025");
       };
 
-      C.start(); // Démarre l'application
+      /**
+       * Charger et afficher les films
+       */
+      C.loadMovies = async function () {
+        try {
+          // Récupérer les films depuis le serveur
+          let moviesData = await DataMovie.requestMovies();
+          // Afficher les films
+          V.renderMovies(moviesData);
+        } catch (error) {
+          console.error("Erreur lors du chargement des films:", error);
+          V.renderMovies([]);
+        }
+      };
+
+      /**
+       * Démarrer l'application
+       */
+      C.start = function () {
+        // Afficher la navbar
+        V.renderNavBar("C.handlerAbout()");
+        // Charger les films
+        C.loadMovies();
+      };
+
+      // ============================================================
+      // VUE - Gère l'affichage à l'écran
+      // ============================================================
+      let V = {};
+
+      /**
+       * Afficher la barre de navigation
+       */
+      V.renderNavBar = function (handlerAbout) {
+        let header = document.querySelector("#header");
+        header.innerHTML = NavBar.format(handlerAbout);
+      };
+
+      /**
+       * Afficher la liste des films
+       */
+      V.renderMovies = function (movies) {
+        let content = document.querySelector("#content");
+        content.innerHTML = Movie.format(movies);
+      };
+
+      // Démarrer l'application
+      C.start();
     </script>
   </body>
 </html>

@@ -53,13 +53,14 @@ if ( isset($_REQUEST['todo']) ){
   switch($todo){
 
     case 'readmovies':
+      // Appeler le contrôleur pour récupérer les films
       $data = readMoviesController();
       break;
 
-
-    default: // il y a un paramètre todo mais sa valeur n'est pas reconnue/supportée
-      echo json_encode('[error] Unknown todo value');
-      http_response_code(400); // 400 == "Bad request"
+    default:
+      // La valeur de 'todo' n'est pas reconnue
+      echo json_encode(array('error' => 'Action inconnue'));
+      http_response_code(400);
       exit();
   }
 
@@ -72,19 +73,16 @@ if ( isset($_REQUEST['todo']) ){
    * Si la fonction de contrôleur retourne false, on renvoie une réponse JSON avec un message d'erreur 
    * et un code de réponse HTTP 500 (Internal error), puis termine l'exécution du script (exit()).
    */
-  if ($data===false){
-    echo json_encode('[error] Controller returns false');
-    http_response_code(500); // 500 == "Internal error"
+  // Vérifier si le contrôleur a retourné une erreur
+  if ($data === false){
+    echo json_encode(array('error' => 'Erreur serveur'));
+    http_response_code(500);
     exit();
   }
 
-  /**
-   * Si tout s'est bien passé, on renvoie la réponse HTTP avec les données ($data) retournées
-   * par la fonction de contrôleur et encodées en JSON (json_encode).
-   * On renvoie aussi un code de réponse HTTP 200 (OK) pour indiquer que la requête a été traitée avec succès.
-   */
+  // Tout s'est bien passé : retourner les données en JSON
   echo json_encode($data);
-  http_response_code(200); // 200 == "OK"
+  http_response_code(200);
   exit();
 
    
