@@ -16,23 +16,29 @@ let Movie = {};
  */
 Movie.format = function (movies) {
   let html = template;
-  
+
   // Si aucun film, afficher un message
   if (!movies || movies.length === 0) {
-    html = html.replace("{{movies}}", '<div class="no-movies">Aucun film disponible pour le moment.</div>');
+    html = html.replace(
+      "{{movies}}",
+      '<div class="no-movies">Aucun film disponible pour le moment.</div>',
+    );
     return html;
   }
-  
+
   // Générer le HTML pour chaque film
-  let moviesHTML = movies.map(movie => {
-    return `
+  let moviesHTML = movies
+    .map((movie) => {
+      return `
       <div class="movie-card">
         <img src="../server/images/${movie.image}" alt="${movie.name}" class="movie-card__image" />
         <h3 class="movie-card__title">${movie.name}</h3>
+        <p class="movie-card__category">${movie.category || "Sans catégorie"}</p>
       </div>
     `;
-  }).join('');
-  
+    })
+    .join("");
+
   // Remplacer le placeholder dans le template
   html = html.replace("{{movies}}", moviesHTML);
   return html;

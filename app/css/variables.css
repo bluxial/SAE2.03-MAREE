@@ -1,15 +1,64 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,700&display=swap");
+/** 
+ * VARIABLES.CSS - Design Tokens
+ * 
+ * Ce fichier contient les tokens (variables CSS) utilisés dans toute l'application.
+ * Ce système permet de maintenir une cohérence visuelle et de changer les couleurs/espacements
+ * en un seul endroit.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap");
 
 :root {
-  /* Primitive Tokens */
+  /* ====== COULEURS PRIMITIVES ====== */
+  /* Ne pas utiliser directement dans le code, utiliser les tokens sémantiques */
   --color-black: hsl(253, 69%, 8%);
   --color-white: hsl(0, 0%, 100%);
-  --color-gray-light: hsl(0, 0%, 80%);
-  --color-gray: hsl(0, 0%, 50%);
-  --color-gray-dark: hsl(0, 0%, 20%);
-  --ff-sans: "DM sans", sans-serif;
+  --color-gray-100: hsl(0, 0%, 90%);
+  --color-gray-200: hsl(0, 0%, 80%);
+  --color-gray-500: hsl(0, 0%, 50%);
+  --color-gray-800: hsl(0, 0%, 20%);
+  --color-gray-900: hsl(0, 0%, 10%);
 
-  /* Sementic Tokens */
+  /* ====== COULEURS SÉMANTIQUES ====== */
+  /* Forground = texte, Background = fond */
   --color-fg: var(--color-white);
-  --color-bg: var(--color-gray-dark);
+  --color-bg: var(--color-gray-900);
+  --color-fg-secondary: var(--color-gray-200);
+  --color-bg-secondary: var(--color-gray-800);
+
+  /* ====== TYPOGRAPHIE ====== */
+  --ff-sans: "DM Sans", sans-serif;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  --fs-small: 0.875rem;      /* 14px */
+  --fs-base: 1rem;           /* 16px */
+  --fs-lg: 1.125rem;         /* 18px */
+  --fs-xl: 1.5rem;           /* 24px */
+  --fs-2xl: 2rem;            /* 32px */
+
+  --lh-tight: 1.2;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.75;
+
+  /* ====== ESPACEMENTS ====== */
+  --space-xs: 0.25rem;       /* 4px */
+  --space-sm: 0.5rem;        /* 8px */
+  --space-md: 1rem;          /* 16px */
+  --space-lg: 1.5rem;        /* 24px */
+  --space-xl: 2rem;          /* 32px */
+  --space-2xl: 3rem;         /* 48px */
+
+  /* ====== BORDER RADIUS ====== */
+  --radius-sm: 0.25rem;      /* 4px */
+  --radius-md: 0.5rem;       /* 8px */
+  --radius-lg: 1rem;         /* 16px */
+
+  /* ====== BREAKPOINTS ====== */
+  /* Utilisé pour le responsive design */
+  --bp-sm: 576px;
+  --bp-md: 768px;
+  --bp-lg: 992px;
+  --bp-xl: 1200px;
 }
