@@ -50,6 +50,5 @@ body {
   font-family: var(--ff-sans);
   font-size: var(--fs-base);
   line-height: var(--lh-normal);
-  color: var(--color-fg);
-  background-color: var(--color-fg-secondary);
+  background-color: var(--color-fg);
 }

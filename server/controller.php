@@ -1,9 +1,4 @@
 <?php
-// ============================================================
-// CONTROLLER.PHP - Couche contrôleur (traitement des requêtes)
-// ============================================================
-// Ce fichier contient les fonctions qui traitent les requêtes HTTP.
-// ============================================================
 
 // Inclure le modèle pour accéder aux fonctions de base de données
 require("model.php");
