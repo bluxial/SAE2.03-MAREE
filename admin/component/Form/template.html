@@ -1,0 +1,55 @@
+<div class="log">
+  <form
+    id="movie-form"
+    class="movie-form"
+    method="post"
+    action="../server/controller.php"
+  >
+    <div class="form-group">
+      <label for="name">Nom du film:</label>
+      <input type="text" id="name" name="name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="director">Réalisateur:</label>
+      <input type="text" id="director" name="director" required />
+    </div>
+
+    <div class="form-group">
+      <label for="year">Année:</label>
+      <input type="number" id="year" name="year" required />
+    </div>
+
+    <div class="form-group">
+      <label for="length">Durée (minutes):</label>
+      <input type="number" id="length" name="length" required />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="id_category">Catégorie:</label>
+      <input type="text" id="id_category" name="id_category" required />
+    </div>
+
+    <div class="form-group">
+      <label for="image">Image:</label>
+      <input type="text" id="image" name="image" required />
+    </div>
+
+    <div class="form-group">
+      <label for="trailer">Bande-annonce (URL):</label>
+      <input type="text" id="trailer" name="trailer" required />
+    </div>
+
+    <div class="form-group">
+      <label for="min_age">Âge minimum:</label>
+      <input type="number" id="min_age" name="min_age" required />
+    </div>
+
+    <button type="button" class="btn-approve">Ajouter le film</button>
+  </form>
+</div>

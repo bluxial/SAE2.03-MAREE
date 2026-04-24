@@ -1,50 +1,53 @@
 <?php
-// ============================================================
-// SCRIPT.PHP - Point d'entrée des requêtes HTTP
-// ============================================================
-// Ce fichier reçoit TOUTES les requêtes HTTP.
-// Il dirige les requêtes vers le bon contrôleur selon le paramètre "todo".
-// ============================================================
+// Activer le rapport d'erreurs PHP
+error_reporting(E_ALL);
 
-// Inclure le contrôleur pour accéder aux fonctions de traitement
+// Ne PAS afficher les erreurs à l'écran (elles corrompraient le JSON)
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+
+// Envoyer les erreurs dans le fichier log
+ini_set('log_errors', 1);
+
 require("controller.php");
 
-// Vérifier si la requête contient le paramètre 'todo'
-if ( isset($_REQUEST['todo']) ){
-  // Indiquer au client que la réponse sera en JSON
-  header('Content-Type: application/json');
+if (isset($_REQUEST['todo'])) {
 
-  // Récupérer la valeur du paramètre 'todo'
-  $todo = $_REQUEST['todo'];
+    header('Content-Type: application/json');
 
-  // Appeler la bonne fonction selon le paramètre 'todo'
-  switch($todo){
+    $todo = $_REQUEST['todo'];
 
-    case 'readmovies':
-      // Appeler le contrôleur pour récupérer les films
-      $data = readMoviesController();
-      break;
+    switch ($todo) {
 
-    default:
-      // La valeur de 'todo' n'est pas reconnue
-      echo json_encode(array('error' => 'Action inconnue'));
-      http_response_code(400);
-      exit();
-  }
 
-  // Vérifier si le contrôleur a retourné une erreur
-  if ($data === false){
-    echo json_encode(array('error' => 'Erreur serveur'));
-    http_response_code(500);
+        case 'readmovies':
+            $data = readMoviesController();
+            break;
+
+        case 'addmovie':
+            $data = addMovieController();
+            break;
+
+        case 'readcategories':
+            $data = readCategoriesController();
+            break;
+
+        default:
+            echo json_encode('[error] Unknown todo value');
+            http_response_code(400);
+            exit();
+    }
+
+    if ($data === false) {
+        echo json_encode('[error] Controller returns false');
+        http_response_code(500);
+        exit();
+    }
+
+    echo json_encode($data);
+    http_response_code(200);
     exit();
-  }
-
-  // Tout s'est bien passé : retourner les données en JSON
-  echo json_encode($data);
-  http_response_code(200);
-  exit();
 }
 
-// Si 'todo' n'est pas défini, retourner une erreur 404
 http_response_code(404);
 ?>
