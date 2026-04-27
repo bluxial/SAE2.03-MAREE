@@ -1,46 +1,25 @@
-// ============================================================
-// Movie/script.js - Composant pour afficher un film
-// ============================================================
-
-// Charger le template HTML du composant
 let templateFile = await fetch("./component/Movie/template.html");
 let template = await templateFile.text();
 
-// Objet contenant les méthodes du composant Movie
 let Movie = {};
 
-/**
- * Formate un tableau de films en HTML
- * @param {Array} movies - Tableau de films à afficher
- * @return {String} - HTML généré
- */
-Movie.format = function (movies) {
+Movie.format = function (movie) {
   let html = template;
+  html = html.replace(/{{image}}/g, "../server/images/" + movie.image);
+  html = html.replace(/{{name}}/g, movie.name);
+  html = html.replace(/{{category}}/g, movie.category);
+  return html;
+};
 
-  // Si aucun film, afficher un message
-  if (!movies || movies.length === 0) {
-    html = html.replace(
-      "{{movies}}",
-      '<div class="no-movies">Aucun film disponible pour le moment.</div>',
-    );
-    return html;
+Movie.formatMany = function (movies) {
+  let html = '<div class="movie-grid">';
+  if (movies.length == 0) {
+    return '<div class="no-movies">Aucun film disponible pour le moment.</div>';
   }
-
-  // Générer le HTML pour chaque film
-  let moviesHTML = movies
-    .map((movie) => {
-      return `
-      <div class="movie-card">
-        <img src="../server/images/${movie.image}" alt="${movie.name}" class="movie-card__image" />
-        <h3 class="movie-card__title">${movie.name}</h3>
-        <p class="movie-card__category">${movie.category || "Sans catégorie"}</p>
-      </div>
-    `;
-    })
-    .join("");
-
-  // Remplacer le placeholder dans le template
-  html = html.replace("{{movies}}", moviesHTML);
+  for (const movie of movies) {
+    html += Movie.format(movie);
+  }
+  html += "</div>";
   return html;
 };
 

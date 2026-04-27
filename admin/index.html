@@ -12,8 +12,8 @@
     />
   </head>
   <body>
-    <section id="form"></section>
     <section id="log"></section>
+    <section id="form"></section>
 
     <script type="module">
       import { Log } from "./component/Log/script.js";
@@ -22,21 +22,20 @@
       window.C = {};
 
       C.start = function () {
-        V.renderForm();
         V.renderLog("Démarrage de l'application");
+        V.renderForm();
       };
 
       window.V = {};
 
-      V.renderForm = function () {
-        let content = document.querySelector("#form");
-        content.innerHTML = Form.format();
-        Form.init();
-      };
-
       V.renderLog = function (txt) {
         let content = document.querySelector("#log");
         content.innerHTML = Log.format(txt);
+      };
+
+      V.renderForm = function () {
+        let content = document.querySelector("#form");
+        content.innerHTML = Form.format();
       };
 
       C.start();
