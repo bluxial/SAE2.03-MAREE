@@ -18,12 +18,23 @@
     <script type="module">
       import { Log } from "./component/Log/script.js";
       import { Form } from "./component/Form/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
 
       window.C = {};
 
       C.start = function () {
         V.renderLog("Démarrage de l'application");
         V.renderForm();
+        document
+          .querySelector(".btn-approve")
+          .addEventListener("click", C.addMovie);
+      };
+
+      C.addMovie = async function () {
+        let form = document.querySelector("#movie-form");
+        let fdata = new FormData(form);
+        let result = await DataMovie.add(fdata);
+        V.renderLog(result);
       };
 
       window.V = {};

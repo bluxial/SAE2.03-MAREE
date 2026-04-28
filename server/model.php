@@ -8,17 +8,14 @@ define("DBPWD", "maree2");
 
 function getAllMovies()
 {
-    // Connexion à la base de données
-    $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD);
-    // Requête SQL pour récupérer le menu avec des paramètres
-    $sql = "select id, name, image from SAE203_Movie";
-    // Prépare la requête SQL
-    $stmt = $cnx->prepare($sql);
-    // Exécute la requête SQL
-    $stmt->execute();
-    // Récupère les résultats de la requête sous forme d'objets
-    $res = $stmt->fetchAll(PDO::FETCH_OBJ);
-    return $res; // Retourne les résultats
+    try {
+        $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD);
+        $stmt = $cnx->prepare("select id, name, image from SAE203_Movie");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    } catch (PDOException $e) {
+        return false;  // controller.php renvoie déjà une 500 si false
+    }
 }
 
 function getAllCategories()
