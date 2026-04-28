@@ -47,19 +47,19 @@ if (isset($_REQUEST['todo'])) {
 
 
         default: // il y a un paramètre todo mais sa valeur n'est pas reconnue/supportée
-            echo json_encode('[error] Unknown todo value');
             http_response_code(400); // 400 == "Bad request"
+            echo json_encode('[error] Unknown todo value');
             exit();
     }
 
     if ($data === false) {
-        echo json_encode('[error] Controller returns false');
         http_response_code(500); // 500 == "Internal error"
+        echo json_encode('[error] Controller returns false');
         exit();
     }
 
-    echo json_encode($data);
     http_response_code(200); // 200 == "OK"
+    echo json_encode($data);
     exit();
 
 
