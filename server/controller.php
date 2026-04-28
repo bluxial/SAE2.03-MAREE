@@ -1,81 +1,118 @@
 <?php
-/** ARCHITECTURE PHP SERVEUR : Rôle du fichier controller.php
- *
- *  Ce fichier définit les fonctions de contrôle qui traitent les requêtes HTTP.
- *  Chaque fonction correspond à une valeur du paramètre 'todo' (voir script.php).
- *
- *  Si la fonction échoue, elle retourne false.
- *  Sinon, elle retourne les données à inclure dans la réponse HTTP.
- */
 
 require("model.php");
+
 
 function readMoviesController()
 {
     $movies = getAllMovies();
-    return $movies;
-}
 
-/**
- * Récupère et valide les paramètres POST, puis appelle addMovie().
- */
-function addMovieController()
-{
-    // --- Champs obligatoires ---
-    $required = ['name', 'director', 'year', 'length', 'description', 'id_category', 'min_age'];
-
-    foreach ($required as $field) {
-        if (empty($_POST[$field])) {
-            http_response_code(400);
-            echo json_encode('[error] Champ obligatoire manquant : ' . $field);
-            exit();
-        }
-    }
-
-    $year = intval($_POST['year']);
-    $length = intval($_POST['length']);
-    $id_cat = $_POST['id_category']; // Accepter le texte directement
-    $min_age = intval($_POST['min_age']);
-
-    if ($year < 1888 || $year > 2100) {
-        http_response_code(400);
-        echo json_encode('[error] Année de sortie invalide.');
-        exit();
-    }
-    if ($length < 1) {
-        http_response_code(400);
-        echo json_encode('[error] Durée invalide.');
-        exit();
-    }
-    if (empty($id_cat)) {
-        http_response_code(400);
-        echo json_encode('[error] Catégorie invalide.');
-        exit();
-    }
-
-    $data = [
-        'name' => trim($_POST['name']),
-        'director' => trim($_POST['director']),
-        'year' => $year,
-        'length' => $length,
-        'description' => trim($_POST['description']),
-        'id_category' => $id_cat,
-        'image' => isset($_POST['image']) ? trim($_POST['image']) : '',
-        'trailer' => isset($_POST['trailer']) ? trim($_POST['trailer']) : '',
-        'min_age' => $min_age,
-    ];
-
-    $success = addMovie($data);
-
-    if (!$success) {
+    if ($movies === false || $movies === null) {
         return false;
     }
-
-    return ['message' => 'Le film "' . $data['name'] . '" a été ajouté avec succès.'];
+    return $movies;
 }
 
 function readCategoriesController()
 {
     $categories = getAllCategories();
+    if ($categories === false || $categories === null) {
+        return false;
+    }
     return $categories;
+}
+
+function addMovieController()
+{
+    $name = $_REQUEST['name'] ?? $_REQUEST['title'] ?? null;
+    $image = $_REQUEST['image'] ?? null;
+    $year = $_REQUEST['year'] ?? $_REQUEST['release_year'] ?? null;
+    $description = $_REQUEST['description'] ?? null;
+    $director = $_REQUEST['director'] ?? null;
+    $trailer = $_REQUEST['trailer'] ?? null;
+    $min_age = $_REQUEST['min_age'] ?? null;
+    $length = $_REQUEST['length'] ?? null;
+    $id_category = $_REQUEST['id_category'] ?? null;
+
+
+    if (
+        $name === null || $name === '' ||
+        $image === null || $image === '' ||
+        $year === null || $year === '' ||
+        $description === null || $description === '' ||
+        $director === null || $director === '' ||
+        $trailer === null || $trailer === '' ||
+        $min_age === null || $min_age === '' ||
+        $length === null || $length === '' ||
+        $id_category === null || $id_category === ''
+    ) {
+
+        return false;
+        return "Tous les champs sont obligatoires et doivent être valides.";
+    }
+
+    $ok = addMovie($name, $image, $year, $description, $director, $trailer, $min_age, $length, $id_category);
+
+    if ($ok != 0) {
+        return "Le film $name a été ajouté avec succès !";
+    } else {
+        return "Une erreur est survenue lors de l'ajout du film.";
+    }
+}
+
+function readMovieDetailController()
+{
+
+    $id = $_REQUEST['id'] ?? null;
+
+    if ($id === null || $id === '') {
+        return false;
+    }
+    $movie = getMovieDetails($id);
+    if ($movie === false || $movie === null) {
+        return false;
+    }
+    return $movie;
+}
+
+function readMoviesGroupedByCategoryController()
+{
+    $movies = getMoviesGroupedByCategory();
+
+    if ($movies === false || $movies === null) {
+        return false;
+    }
+    return $movies;
+}
+
+function addProfileController()
+{
+    $name = $_REQUEST['name'] ?? null;
+    $avatar = $_REQUEST['avatar'] ?? '';
+    $min_age = $_REQUEST['min_age'] ?? null;
+
+    if (
+        $name === null || $name === '' ||
+        $min_age === null || $min_age === ''
+    ) {
+        return false;
+    }
+
+    $ok = addProfile($name, $avatar, $min_age);
+
+    if ($ok) {
+        return "Le profil $name a été ajouté avec succès !";
+    } else {
+        return "Une erreur est survenue lors de l'ajout du profil.";
+    }
+}
+
+function readProfilesController()
+{
+    $profiles = getAllProfiles();
+
+    if ($profiles === false || $profiles === null) {
+        return false;
+    }
+    return $profiles;
 }
