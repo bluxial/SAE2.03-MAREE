@@ -12,24 +12,40 @@ let DataMovie = {};
  * Récupère les films depuis le serveur PHP
  * @return Promise - Retourne les films en JSON
  */
-DataMovie.requestMovies = async function(){
-    try {
-        // Faire une requête HTTP GET vers le serveur PHP
-        let answer = await fetch(HOST_URL + "/server/script.php?todo=readmovies");
-        
-        // Vérifier si la requête s'est bien déroulée
-        if (!answer.ok) {
-            throw new Error("Le serveur a retourné une erreur");
-        }
-        
-        // Convertir la réponse en JSON et la retourner
-        let data = await answer.json();
-        return data;
-    } catch (error) {
-        // En cas d'erreur, afficher un message en console
-        console.error("Erreur lors du chargement des films:", error);
-        return [];
-    }
-}
+DataMovie.requestMovies = async function () {
+  try {
+    // Faire une requête HTTP GET vers le serveur PHP
+    let answer = await fetch(HOST_URL + "/server/script.php?todo=readmovies");
 
-export {DataMovie};
+    // Vérifier si la requête s'est bien déroulée
+    if (!answer.ok) {
+      throw new Error("Le serveur a retourné une erreur");
+    }
+
+    // Convertir la réponse en JSON et la retourner
+    let data = await answer.json();
+    return data;
+  } catch (error) {
+    // En cas d'erreur, afficher un message en console
+    console.error("Erreur lors du chargement des films:", error);
+    return [];
+  }
+};
+
+DataMovie.requestMovieDetails = async function (id) {
+  try {
+    let answer = await fetch(
+      HOST_URL + "/server/script.php?todo=readmoviedetail&id=" + id,
+    );
+    if (!answer.ok) {
+      throw new Error("Erreur serveur");
+    }
+    let data = await answer.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors du chargement du film:", error);
+    return null;
+  }
+};
+
+export { DataMovie };

@@ -9,16 +9,30 @@ DataMovie.requestMovies = async function () {
 };
 
 DataMovie.add = async function (fdata) {
-  let config = {
-    method: "POST",
-    body: fdata,
-  };
+  let config = { method: "POST", body: fdata };
   let answer = await fetch(
     HOST_URL + "/server/script.php?todo=addmovie",
     config,
   );
+  if (!answer.ok) {
+    throw new Error("Erreur serveur : " + answer.status);
+  }
   let data = await answer.json();
   return data;
+};
+
+DataMovie.requestMovieDetails = async function (id) {
+  try {
+    let answer = await fetch(
+      HOST_URL + "/server/script.php?todo=readmoviedetail&id=" + id,
+    );
+    if (!answer.ok) throw new Error("Erreur serveur");
+    let data = await answer.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors du chargement du film:", error);
+    return null;
+  }
 };
 
 export { DataMovie };

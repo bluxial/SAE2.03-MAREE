@@ -18,11 +18,26 @@
       import { NavBar } from "./component/NavBar/script.js";
       import { Movie } from "./component/Movie/script.js";
       import { DataMovie } from "./data/dataMovie.js";
+      import { MovieDetail } from "./component/MovieDetail/script.js";
 
-      let C = {};
+      window.C = {};
+      let C = window.C;
 
       C.handlerAbout = function () {
         alert("SAE2.03 - Application films - Édition 2025");
+      };
+
+      C.handlerDetail = async function (id) {
+        try {
+          let movie = await DataMovie.requestMovieDetails(id);
+          V.renderDetail(movie);
+        } catch (error) {
+          console.error("Erreur chargement détail:", error);
+        }
+      };
+
+      C.handlerHome = function () {
+        C.loadMovies();
       };
 
       C.loadMovies = async function () {
@@ -36,21 +51,25 @@
       };
 
       C.start = function () {
-        V.renderNavBar("C.handlerAbout()");
-
+        V.renderNavBar("C.handlerAbout()", "C.handlerHome()");
         C.loadMovies();
       };
 
       let V = {};
 
-      V.renderNavBar = function (handlerAbout) {
+      V.renderNavBar = function (handlerAbout, handlerHome) {
         let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(handlerAbout);
+        header.innerHTML = NavBar.format(handlerAbout, handlerHome);
       };
 
       V.renderMovies = function (movies) {
         let content = document.querySelector("#content");
         content.innerHTML = Movie.formatMany(movies);
+      };
+
+      V.renderDetail = function (movie) {
+        let content = document.querySelector("#content");
+        content.innerHTML = MovieDetail.format(movie);
       };
 
       C.start();

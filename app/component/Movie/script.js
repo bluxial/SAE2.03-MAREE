@@ -8,6 +8,7 @@ Movie.format = function (movie) {
   html = html.replace(/{{image}}/g, "../server/images/" + movie.image);
   html = html.replace(/{{name}}/g, movie.name);
   html = html.replace(/{{category}}/g, movie.category);
+  html = html.replace(/{{id}}/g, movie.id);
   return html;
 };
 

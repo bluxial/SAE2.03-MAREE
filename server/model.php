@@ -8,14 +8,13 @@ define("DBPWD", "maree2");
 
 function getAllMovies()
 {
-    try {
-        $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD);
-        $stmt = $cnx->prepare("select id, name, image from SAE203_Movie");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-    } catch (PDOException $e) {
-        return false;  // controller.php renvoie déjà une 500 si false
-    }
+    $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD);
+    $sql = "SELECT SAE203_Movie.id, SAE203_Movie.name, SAE203_Movie.image, SAE203_Category.name AS category
+            FROM SAE203_Movie
+            LEFT JOIN SAE203_Category ON SAE203_Movie.id_category = SAE203_Category.id";
+    $stmt = $cnx->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 
 function getAllCategories()

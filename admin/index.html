@@ -31,10 +31,14 @@
       };
 
       C.addMovie = async function () {
-        let form = document.querySelector("#movie-form");
-        let fdata = new FormData(form);
-        let result = await DataMovie.add(fdata);
-        V.renderLog(result);
+        try {
+          let form = document.querySelector("#movie-form");
+          let fdata = new FormData(form);
+          let result = await DataMovie.add(fdata);
+          V.renderLog(result);
+        } catch (error) {
+          V.renderLog("Erreur : " + error.message);
+        }
       };
 
       window.V = {};

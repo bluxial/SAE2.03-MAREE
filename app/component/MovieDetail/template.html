@@ -1,0 +1,33 @@
+<article class="movie-detail">
+  <div class="movie-detail__poster-wrap">
+    <img src="{{image}}" alt="{{name}}" class="movie-detail__poster" />
+  </div>
+  <div class="movie-detail__info">
+    <h1 class="movie-detail__title">{{name}}</h1>
+    <p class="movie-detail__meta">
+      {{year}} · {{length}} min · {{category}} · {{min_age}}+
+    </p>
+    <p class="movie-detail__director">Réalisateur : {{director}}</p>
+    <p class="movie-detail__description">{{description}}</p>
+    <div class="movie-detail__trailer">
+      <iframe
+        width="560"
+        height="315"
+        src="{{trailer}}"
+        title="Trailer {{name}}"
+        frameborder="0"
+        allow="
+          accelerometer;
+          autoplay;
+          clipboard-write;
+          encrypted-media;
+          gyroscope;
+          picture-in-picture;
+          web-share;
+        "
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,49 @@
+.movie-detail {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: var(--color-fg);
+}
+
+.movie-detail__poster-wrap {
+  flex-shrink: 0;
+  width: 280px;
+}
+
+.movie-detail__poster {
+  width: 100%;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.movie-detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--color-bg);
+}
+
+.movie-detail__title {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-extrabold);
+}
+
+.movie-detail__meta {
+  font-size: var(--fs-small);
+  color: var(--color-bg-secondary);
+}
+
+.movie-detail__director {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+}
+
+.movie-detail__description {
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+
+.movie-detail__trailer iframe {
+  border-radius: var(--radius-md);
+  max-width: 100%;
+}
