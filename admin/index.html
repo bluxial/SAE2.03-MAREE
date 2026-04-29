@@ -14,20 +14,28 @@
   <body>
     <section id="log"></section>
     <section id="form"></section>
+    <hr />
+    <section id="profile"></section>
 
     <script type="module">
       import { Log } from "./component/Log/script.js";
-      import { Form } from "./component/Form/script.js";
+      import { MovieForm } from "./component/MovieForm/script.js";
+      import { ProfileForm } from "./component/ProfileForm/script.js";
       import { DataMovie } from "./data/dataMovie.js";
+      import { DataProfile } from "./data/dataProfile.js";
 
       window.C = {};
 
       C.start = function () {
         V.renderLog("Démarrage de l'application");
-        V.renderForm();
+        V.renderMovieForm();
+        V.renderProfileForm();
         document
           .querySelector(".btn-approve")
           .addEventListener("click", C.addMovie);
+        document
+          .querySelector(".btn-approve-profile")
+          .addEventListener("click", C.handlerAddProfile);
       };
 
       C.addMovie = async function () {
@@ -41,6 +49,17 @@
         }
       };
 
+      C.handlerAddProfile = async function () {
+        try {
+          let form = document.querySelector("#profile-form");
+          let fdata = new FormData(form);
+          let result = await DataProfile.add(fdata);
+          V.renderLog(result);
+        } catch (error) {
+          V.renderLog("Erreur : " + error.message);
+        }
+      };
+
       window.V = {};
 
       V.renderLog = function (txt) {
@@ -48,9 +67,14 @@
         content.innerHTML = Log.format(txt);
       };
 
-      V.renderForm = function () {
+      V.renderMovieForm = function () {
         let content = document.querySelector("#form");
-        content.innerHTML = Form.format();
+        content.innerHTML = MovieForm.format();
+      };
+
+      V.renderProfileForm = function () {
+        let content = document.querySelector("#profile");
+        content.innerHTML = ProfileForm.format();
       };
 
       C.start();
