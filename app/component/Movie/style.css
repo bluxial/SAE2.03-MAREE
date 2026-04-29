@@ -10,7 +10,8 @@
 .movie-card {
   background-color: var(--color-bg);
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(0, 0, 0, 1);
   overflow: hidden;
   width: 20rem;
   height: auto;

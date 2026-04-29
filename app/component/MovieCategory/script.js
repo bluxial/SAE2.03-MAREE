@@ -8,8 +8,12 @@ let MovieCategory = {};
 MovieCategory.format = function (categoryName, movies) {
   let count = movies.length;
   let moviesHtml = "";
-  for (const movie of movies) {
-    moviesHtml += Movie.format({ ...movie, category: "" });
+  if (count === 0) {
+    moviesHtml = "<p>Aucun film disponible pour votre tranche d'âge.</p>";
+  } else {
+    for (const movie of movies) {
+      moviesHtml += Movie.format({ ...movie, category: "" });
+    }
   }
   let html = template;
   html = html.replace(/{{name}}/g, categoryName);

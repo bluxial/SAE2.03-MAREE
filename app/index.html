@@ -46,8 +46,9 @@
         C.loadProfiles();
       };
 
-      C.handlerSelectProfile = function (id, name) {
+      C.handlerSelectProfile = function (id, name, age) {
         window.activeProfileId = id;
+        window.activeProfileAge = age;
         V.renderNavBar(
           "C.handlerAbout()",
           "C.handlerHome()",
@@ -68,7 +69,9 @@
 
       C.loadMovies = async function () {
         try {
-          let groupedMovies = await DataMovie.requestMoviesGroupedByCategory();
+          let groupedMovies = await DataMovie.requestMoviesGroupedByCategory(
+            window.activeProfileAge,
+          );
           V.renderMoviesByCategory(groupedMovies);
         } catch (error) {
           console.error("Erreur lors du chargement des films:", error);
@@ -112,7 +115,9 @@
             profile.id +
             ", '" +
             profile.name +
-            "')\">";
+            "', " +
+            profile.min_age +
+            ')">';
           if (profile.avatar) {
             html +=
               "<img src='../server/images/" +
@@ -132,7 +137,8 @@
         let content = document.querySelector("#content");
         let categories = Object.keys(groupedMovies);
         if (categories.length === 0) {
-          content.innerHTML = "<p>Aucun film disponible pour le moment.</p>";
+          content.innerHTML =
+            "<p>Aucun film disponible pour votre tranche d'âge.</p>";
           return;
         }
         let html = "";

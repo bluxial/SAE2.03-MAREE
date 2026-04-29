@@ -46,7 +46,7 @@ if (isset($_REQUEST['todo'])) {
             break;
 
 
-        default: // il y a un paramètre todo mais sa valeur n'est pas reconnue/supportée
+        default:
             http_response_code(400); // 400 == "Bad request"
             echo json_encode('[error] Unknown todo value');
             exit();

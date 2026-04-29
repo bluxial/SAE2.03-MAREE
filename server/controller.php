@@ -77,7 +77,8 @@ function readMovieDetailController()
 
 function readMoviesGroupedByCategoryController()
 {
-    $movies = getMoviesGroupedByCategory();
+    $age = isset($_REQUEST['age']) ? intval($_REQUEST['age']) : 0;
+    $movies = getMoviesGroupedByCategory($age);
 
     if ($movies === false || $movies === null) {
         return false;

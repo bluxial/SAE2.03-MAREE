@@ -11,6 +11,9 @@
   cursor: pointer;
   min-width: 120px;
   text-align: center;
+  border-radius: 1rem;
+  text-transform: uppercase;
+  font-weight: var(--fw-bold);
 }
 
 .profile-card:hover {
@@ -23,4 +26,6 @@
   object-fit: cover;
   display: block;
   margin: 0 auto 0.5rem;
+  border: 1px solid black;
+  border-radius: 3rem;
 }

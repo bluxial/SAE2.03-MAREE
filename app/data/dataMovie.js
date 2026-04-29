@@ -48,10 +48,12 @@ DataMovie.requestMovieDetails = async function (id) {
   }
 };
 
-DataMovie.requestMoviesGroupedByCategory = async function () {
+DataMovie.requestMoviesGroupedByCategory = async function (age = 0) {
   try {
     let answer = await fetch(
-      HOST_URL + "/server/script.php?todo=readmoviesgroupedbycategory",
+      HOST_URL +
+        "/server/script.php?todo=readmoviesgroupedbycategory&age=" +
+        age,
     );
     if (!answer.ok) {
       throw new Error("Le serveur a retourné une erreur");
