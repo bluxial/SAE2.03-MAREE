@@ -1,0 +1,26 @@
+.profile-list {
+  display: flex;
+  gap: 1rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.profile-card {
+  border: 1px solid #000000;
+  padding: 1rem;
+  cursor: pointer;
+  min-width: 120px;
+  text-align: center;
+}
+
+.profile-card:hover {
+  background-color: #f0f0f0;
+}
+
+.profile-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 0.5rem;
+}

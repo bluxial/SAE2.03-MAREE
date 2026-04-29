@@ -9,20 +9,21 @@
   </head>
 
   <body>
-    <!-- En-tête (navbar) -->
     <header id="header"></header>
-
-    <!-- Contenu principal (films) -->
     <section id="content"></section>
+
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
       import { Movie } from "./component/Movie/script.js";
       import { DataMovie } from "./data/dataMovie.js";
+      import { DataProfile } from "./data/dataProfile.js";
       import { MovieDetail } from "./component/MovieDetail/script.js";
       import { MovieCategory } from "./component/MovieCategory/script.js";
 
       window.C = {};
       let C = window.C;
+
+      window.activeProfileId = null;
 
       C.handlerAbout = function () {
         alert("SAE2.03 - Application films - Édition 2025");
@@ -41,6 +42,30 @@
         C.loadMovies();
       };
 
+      C.handlerProfile = function () {
+        C.loadProfiles();
+      };
+
+      C.handlerSelectProfile = function (id, name) {
+        window.activeProfileId = id;
+        V.renderNavBar(
+          "C.handlerAbout()",
+          "C.handlerHome()",
+          "C.handlerProfile()",
+          name,
+        );
+        C.loadMovies();
+      };
+
+      C.loadProfiles = async function () {
+        try {
+          let profiles = await DataProfile.read();
+          V.renderProfiles(profiles);
+        } catch (error) {
+          console.error("Erreur lors du chargement des profils:", error);
+        }
+      };
+
       C.loadMovies = async function () {
         try {
           let groupedMovies = await DataMovie.requestMoviesGroupedByCategory();
@@ -52,15 +77,55 @@
       };
 
       C.start = function () {
-        V.renderNavBar("C.handlerAbout()", "C.handlerHome()");
-        C.loadMovies();
+        V.renderNavBar(
+          "C.handlerAbout()",
+          "C.handlerHome()",
+          "C.handlerProfile()",
+          "Choisir un profil",
+        );
+        C.loadProfiles();
       };
 
       let V = {};
 
-      V.renderNavBar = function (handlerAbout, handlerHome) {
+      V.renderNavBar = function (
+        handlerAbout,
+        handlerHome,
+        handlerProfile,
+        profileName,
+      ) {
         let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(handlerAbout, handlerHome);
+        header.innerHTML = NavBar.format(
+          handlerAbout,
+          handlerHome,
+          handlerProfile,
+          profileName,
+        );
+      };
+
+      V.renderProfiles = function (profiles) {
+        let content = document.querySelector("#content");
+        let html = "<div class='profile-list'>";
+        for (let profile of profiles) {
+          html +=
+            "<article class='profile-card' onclick=\"C.handlerSelectProfile(" +
+            profile.id +
+            ", '" +
+            profile.name +
+            "')\">";
+          if (profile.avatar) {
+            html +=
+              "<img src='../server/images/" +
+              profile.avatar +
+              "' alt='" +
+              profile.name +
+              "' />";
+          }
+          html += "<p>" + profile.name + "</p>";
+          html += "</article>";
+        }
+        html += "</div>";
+        content.innerHTML = html;
       };
 
       V.renderMoviesByCategory = function (groupedMovies) {
@@ -89,4 +154,3 @@
     </script>
   </body>
 </html>
-<script type="module"></script>
