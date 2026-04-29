@@ -48,4 +48,20 @@ DataMovie.requestMovieDetails = async function (id) {
   }
 };
 
+DataMovie.requestMoviesGroupedByCategory = async function () {
+  try {
+    let answer = await fetch(
+      HOST_URL + "/server/script.php?todo=readmoviesgroupedbycategory",
+    );
+    if (!answer.ok) {
+      throw new Error("Le serveur a retourné une erreur");
+    }
+    let data = await answer.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors du chargement des films par catégorie:", error);
+    return {};
+  }
+};
+
 export { DataMovie };

@@ -19,6 +19,7 @@
       import { Movie } from "./component/Movie/script.js";
       import { DataMovie } from "./data/dataMovie.js";
       import { MovieDetail } from "./component/MovieDetail/script.js";
+      import { MovieCategory } from "./component/MovieCategory/script.js";
 
       window.C = {};
       let C = window.C;
@@ -42,11 +43,11 @@
 
       C.loadMovies = async function () {
         try {
-          let moviesData = await DataMovie.requestMovies();
-          V.renderMovies(moviesData);
+          let groupedMovies = await DataMovie.requestMoviesGroupedByCategory();
+          V.renderMoviesByCategory(groupedMovies);
         } catch (error) {
           console.error("Erreur lors du chargement des films:", error);
-          V.renderMovies([]);
+          V.renderMoviesByCategory({});
         }
       };
 
@@ -62,9 +63,21 @@
         header.innerHTML = NavBar.format(handlerAbout, handlerHome);
       };
 
-      V.renderMovies = function (movies) {
+      V.renderMoviesByCategory = function (groupedMovies) {
         let content = document.querySelector("#content");
-        content.innerHTML = Movie.formatMany(movies);
+        let categories = Object.keys(groupedMovies);
+        if (categories.length === 0) {
+          content.innerHTML = "<p>Aucun film disponible pour le moment.</p>";
+          return;
+        }
+        let html = "";
+        for (const categoryName of categories) {
+          html += MovieCategory.format(
+            categoryName,
+            groupedMovies[categoryName],
+          );
+        }
+        content.innerHTML = html;
       };
 
       V.renderDetail = function (movie) {

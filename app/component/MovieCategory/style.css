@@ -1,0 +1,25 @@
+.movie-category {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid black;
+}
+
+.movie-category__header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.movie-category__name {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+/* font-size, font-weight bold */
+.movie-category__count {
+  font-size: 0.875rem;
+  color: var(--color-gray-800);
+}
+
+.movie-category .movie-card__category {
+  display: none;
+}
