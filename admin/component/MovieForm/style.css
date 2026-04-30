@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 1rem;
   background-color: #ffffff;
 }
 
@@ -12,7 +12,7 @@
   max-width: 600px;
   background-color: #ffffff;
   border: 1px solid #000000;
-  padding: 2rem;
+  padding: 1.25rem;
   height: auto;
 }
 
@@ -72,6 +72,7 @@
   font-weight: 400;
   cursor: pointer;
   margin-top: 1rem;
+  width: 100%;
 }
 
 #form .btn-approve:hover {
@@ -80,4 +81,18 @@
 
 #form .btn-approve:active {
   background-color: #000000;
+}
+
+@media (min-width: 600px) {
+  #form {
+    padding: 2rem;
+  }
+
+  #form .log {
+    padding: 2rem;
+  }
+
+  #form .btn-approve {
+    width: auto;
+  }
 }

@@ -11,10 +11,10 @@
 }
 
 .movie-category__name {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
 }
-/* font-size, font-weight bold */
+
 .movie-category__count {
   font-size: 0.875rem;
   color: var(--color-gray-800);
@@ -22,4 +22,16 @@
 
 .movie-category .movie-card__category {
   display: none;
+}
+
+@media (min-width: 600px) {
+  .movie-category__name {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .movie-category__name {
+    font-size: 1.25rem;
+  }
 }

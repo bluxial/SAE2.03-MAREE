@@ -1,6 +1,6 @@
 <?php
 
-define("HOST", "localhost");
+define("HOST", "localhost"); // CHANGE THIS TO MATCH YOUR CONFIG
 define("DBNAME", "maree2");
 define("DBLOGIN", "maree2");
 define("DBPWD", "maree2");

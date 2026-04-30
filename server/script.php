@@ -1,5 +1,13 @@
 <?php
+ob_start();
 
+set_exception_handler(function ($e) {
+    ob_end_clean();
+    header('Content-Type: application/json');
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
+    exit();
+});
 error_reporting(E_ALL);
 
 ini_set('display_errors', 1);
