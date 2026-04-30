@@ -1,3 +1,50 @@
+.profile-page {
+  padding: 1rem;
+}
+
+.profile-page__name {
+  font-size: 1.5rem;
+  font-weight: var(--fw-bold);
+  margin-bottom: 0.25rem;
+}
+
+.profile-page__favorites-title {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.profile-page__favorites {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.fav-card {
+  flex: 0 0 140px;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(0, 0, 0, 1);
+  background-color: var(--color-bg);
+}
+
+.fav-card__image {
+  width: 140px;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+}
+
+.fav-card__title {
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: var(--fw-bold);
+  text-align: center;
+  color: var(--color-fg);
+}
+
 .profile-list {
   display: flex;
   justify-content: center;

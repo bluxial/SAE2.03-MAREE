@@ -1,4 +1,13 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 ob_start();
 
 set_exception_handler(function ($e) {
@@ -56,6 +65,14 @@ if (isset($_REQUEST['todo'])) {
 
         case 'readmoviesgroupedbycategory':
             $data = readMoviesGroupedByCategoryController();
+            break;
+
+        case 'addfavorite':
+            $data = addFavoriteController();
+            break;
+
+        case 'readfavorites':
+            $data = readFavoritesController();
             break;
 
 

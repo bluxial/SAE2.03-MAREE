@@ -5,14 +5,15 @@ let template = await templateFile.text();
 
 let MovieCategory = {};
 
-MovieCategory.format = function (categoryName, movies) {
+MovieCategory.format = function (categoryName, movies, favorites = null) {
   let count = movies.length;
   let moviesHtml = "";
   if (count === 0) {
     moviesHtml = "<p>Aucun film disponible pour votre tranche d'âge.</p>";
   } else {
     for (const movie of movies) {
-      moviesHtml += Movie.format({ ...movie, category: "" });
+      let isFavorite = favorites === null ? null : favorites.some(function (f) { return f.id == movie.id; });
+      moviesHtml += Movie.format({ ...movie, category: "" }, isFavorite);
     }
   }
   let html = template;

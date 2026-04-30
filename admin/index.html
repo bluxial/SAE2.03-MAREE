@@ -74,10 +74,11 @@
       };
 
       C.handlerSelectProfile = function (id, name, avatar, min_age) {
-        document.querySelector("#profile-id").value = id;
-        document.querySelector("#name").value = name;
-        document.querySelector("#avatar").value = avatar;
-        document.querySelector("#min_age").value = min_age;
+        let form = document.querySelector("#profile-form");
+        form.querySelector("[name='id']").value = id;
+        form.querySelector("[name='name']").value = name;
+        form.querySelector("[name='avatar']").value = avatar;
+        form.querySelector("[name='min_age']").value = min_age;
       };
 
       window.V = {};

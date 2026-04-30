@@ -99,3 +99,22 @@ function saveProfile($id, $name, $avatar, $min_age)
             ON DUPLICATE KEY UPDATE name = VALUES(name), avatar = VALUES(avatar), min_age = VALUES(min_age)";
     return $cnx->prepare($sql)->execute([':id' => $id, ':name' => $name, ':avatar' => $avatar, ':min_age' => $min_age]);
 }
+
+function addFavorite($id_profile, $id_movie)
+{
+    $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD);
+    $sql = "INSERT IGNORE INTO SAE203_Favorite (id_profile, id_movie) VALUES (:id_profile, :id_movie)";
+    return $cnx->prepare($sql)->execute([':id_profile' => $id_profile, ':id_movie' => $id_movie]);
+}
+
+function getFavoritesByProfile($id_profile)
+{
+    $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD);
+    $sql = "SELECT m.id, m.name, m.image
+            FROM SAE203_Favorite f
+            JOIN SAE203_Movie m ON f.id_movie = m.id
+            WHERE f.id_profile = :id_profile";
+    $stmt = $cnx->prepare($sql);
+    $stmt->execute([':id_profile' => $id_profile]);
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}

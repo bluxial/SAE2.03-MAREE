@@ -2,6 +2,9 @@
   <ul class="navbar__list">
     <li class="navbar__item" onclick="{{hAbout}}">About</li>
     <li class="navbar__item" onclick="{{hHome}}">Films</li>
-    <li class="navbar__item" onclick="{{hProfile}}">{{profileName}}</li>
   </ul>
+  <div class="navbar__profile-section">
+    <span class="navbar__item" onclick="{{hProfile}}">{{profileName}}</span>
+    {{changeProfileBtn}}
+  </div>
 </nav>

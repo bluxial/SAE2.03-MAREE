@@ -89,3 +89,27 @@ function saveProfileController()
     $ok = saveProfile($id, $name, $avatar, $min_age);
     return $ok ? "Le profil $name a été modifié avec succès !" : "Une erreur est survenue lors de la modification du profil.";
 }
+
+function addFavoriteController()
+{
+    $id_profile = $_REQUEST['id_profile'] ?? null;
+    $id_movie = $_REQUEST['id_movie'] ?? null;
+
+    if ($id_profile === null || $id_profile === '' || $id_movie === null || $id_movie === '') {
+        return false;
+    }
+
+    $ok = addFavorite($id_profile, $id_movie);
+    return $ok ? "Le film a été ajouté à vos favoris." : "Une erreur est survenue lors de l'ajout aux favoris.";
+}
+
+function readFavoritesController()
+{
+    $id_profile = $_REQUEST['id_profile'] ?? null;
+
+    if ($id_profile === null || $id_profile === '') {
+        return false;
+    }
+
+    return getFavoritesByProfile($id_profile) ?? false;
+}

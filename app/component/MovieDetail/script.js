@@ -3,7 +3,7 @@ let template = await templateFile.text();
 
 let MovieDetail = {};
 
-MovieDetail.format = function (movie) {
+MovieDetail.format = function (movie, isFavorite = false) {
   let html = template;
   html = html.replace(/{{image}}/g, "../server/images/" + movie.image);
   html = html.replace(/{{name}}/g, movie.name);
@@ -14,6 +14,10 @@ MovieDetail.format = function (movie) {
   html = html.replace(/{{director}}/g, movie.director);
   html = html.replace(/{{description}}/g, movie.description);
   html = html.replace(/{{trailer}}/g, movie.trailer);
+  let btn = isFavorite
+    ? '<button class="btn-favorite" disabled>Déjà dans vos favoris</button>'
+    : '<button class="btn-favorite" onclick="C.handlerAddFavorite(' + movie.id + ')">Ajouter aux favoris</button>';
+  html = html.replace(/{{favorite_button}}/g, btn);
   return html;
 };
 

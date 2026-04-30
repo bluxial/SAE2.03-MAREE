@@ -17,8 +17,10 @@
       import { Movie } from "./component/Movie/script.js";
       import { DataMovie } from "./data/dataMovie.js";
       import { DataProfile } from "./data/dataProfile.js";
+      import { DataFavorite } from "./data/dataFavorite.js";
       import { MovieDetail } from "./component/MovieDetail/script.js";
       import { MovieCategory } from "./component/MovieCategory/script.js";
+      import { Profile } from "./component/Profile/script.js";
 
       window.C = {};
       let C = window.C;
@@ -32,9 +34,24 @@
       C.handlerDetail = async function (id) {
         try {
           let movie = await DataMovie.requestMovieDetails(id);
-          V.renderDetail(movie);
+          let isFavorite = false;
+          if (window.activeProfileId) {
+            let favorites = await DataFavorite.read(window.activeProfileId);
+            isFavorite = favorites.some(function (f) { return f.id == id; });
+          }
+          V.renderDetail(movie, isFavorite);
         } catch (error) {
           console.error("Erreur chargement détail:", error);
+        }
+      };
+
+      C.handlerAddFavorite = async function (id_movie) {
+        try {
+          let message = await DataFavorite.add(window.activeProfileId, id_movie);
+          alert(message);
+          C.loadMovies();
+        } catch (error) {
+          console.error("Erreur ajout favori:", error);
         }
       };
 
@@ -42,8 +59,19 @@
         C.loadMovies();
       };
 
-      C.handlerProfile = function () {
-        C.loadProfiles();
+      C.handlerProfile = async function () {
+        if (window.activeProfileId) {
+          try {
+            let profiles = await DataProfile.read();
+            let profile = profiles.find(function (p) { return p.id == window.activeProfileId; });
+            let favorites = await DataFavorite.read(window.activeProfileId);
+            V.renderProfile(profile, favorites);
+          } catch (error) {
+            console.error("Erreur chargement profil:", error);
+          }
+        } else {
+          C.loadProfiles();
+        }
       };
 
       C.handlerSelectProfile = function (id, name, age) {
@@ -54,6 +82,7 @@
           "C.handlerHome()",
           "C.handlerProfile()",
           name,
+          "<button class='navbar__change-btn' onclick='C.loadProfiles()'>Changer</button>",
         );
         C.loadMovies();
       };
@@ -72,10 +101,14 @@
           let groupedMovies = await DataMovie.requestMoviesGroupedByCategory(
             window.activeProfileAge,
           );
-          V.renderMoviesByCategory(groupedMovies);
+          let favorites = null;
+          if (window.activeProfileId) {
+            favorites = await DataFavorite.read(window.activeProfileId);
+          }
+          V.renderMoviesByCategory(groupedMovies, favorites);
         } catch (error) {
           console.error("Erreur lors du chargement des films:", error);
-          V.renderMoviesByCategory({});
+          V.renderMoviesByCategory({}, null);
         }
       };
 
@@ -133,7 +166,7 @@
         content.innerHTML = html;
       };
 
-      V.renderMoviesByCategory = function (groupedMovies) {
+      V.renderMoviesByCategory = function (groupedMovies, favorites) {
         let content = document.querySelector("#content");
         let categories = Object.keys(groupedMovies);
         if (categories.length === 0) {
@@ -146,14 +179,20 @@
           html += MovieCategory.format(
             categoryName,
             groupedMovies[categoryName],
+            favorites,
           );
         }
         content.innerHTML = html;
       };
 
-      V.renderDetail = function (movie) {
+      V.renderDetail = function (movie, isFavorite) {
         let content = document.querySelector("#content");
-        content.innerHTML = MovieDetail.format(movie);
+        content.innerHTML = MovieDetail.format(movie, isFavorite);
+      };
+
+      V.renderProfile = function (profile, favorites) {
+        let content = document.querySelector("#content");
+        content.innerHTML = Profile.format(profile, favorites);
       };
 
       C.start();
