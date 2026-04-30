@@ -1,74 +1,57 @@
 .navbar {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   padding: 1rem;
   color: var(--color-fg);
   background-color: var(--color-bg);
+}
 
-  .navbar__list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+.navbar__item {
+  padding: 0.4rem 0.75rem;
+  text-decoration: underline;
+  text-decoration-thickness: 0.1rem;
+  text-underline-offset: 0.2rem;
+  cursor: pointer;
+  transition: text-underline-offset 0.2s ease-in-out;
+}
 
-  .navbar__profile-section {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 0;
-  }
+.navbar__item:hover {
+  text-underline-offset: 0.5rem;
+}
 
-  .navbar__item {
-    --_offset: 0.2rem;
-    padding: 0.4rem 0.75rem;
-    text-decoration: underline;
-    text-decoration-thickness: 0.1rem;
-    text-underline-offset: var(--_offset);
-    cursor: pointer;
-    transition: text-underline-offset 0.2s ease-in-out;
-    &:hover {
-      --_offset: 0.5rem;
-    }
-  }
+.navbar__change-btn {
+  padding: 0.3rem 0.75rem;
+  background-color: var(--color-fg);
+  color: var(--color-bg);
+  border: 1px solid var(--color-fg);
+  border-radius: 0;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+}
 
-  .navbar__change-btn {
-    padding: 0.3rem 0.75rem;
-    background-color: var(--color-fg);
-    color: var(--color-bg);
-    border: 1px solid var(--color-fg);
-    border-radius: 0;
-    font-size: 0.85rem;
-    font-family: inherit;
-    cursor: pointer;
-    &:hover {
-      opacity: 0.8;
-    }
-  }
+.navbar__change-btn:hover {
+  opacity: 0.8;
 }
 
 @media (min-width: 600px) {
   .navbar {
     padding: 1rem 2rem;
+  }
 
-    .navbar__list {
-      gap: 1rem;
-    }
+  .navbar__list {
+    gap: 1rem;
   }
 }
 
 @media (min-width: 1024px) {
   .navbar {
     padding: 1rem 3rem;
+  }
 
-    .navbar__list {
-      gap: 1.5rem;
-    }
+  .navbar__list {
+    gap: 1.5rem;
+  }
 
-    .navbar__item {
-      padding: 0.5rem 1rem;
-    }
+  .navbar__item {
+    padding: 0.5rem 1rem;
   }
 }

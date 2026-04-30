@@ -1,9 +1,9 @@
-<nav class="navbar font-sans">
-  <ul class="navbar__list">
+<nav class="navbar font-sans flex flex-row items-center justify-between">
+  <ul class="navbar__list flex flex-row flex-wrap gap-sm">
     <li class="navbar__item" onclick="{{hAbout}}">About</li>
     <li class="navbar__item" onclick="{{hHome}}">Films</li>
   </ul>
-  <div class="navbar__profile-section">
+  <div class="navbar__profile-section flex items-center gap-sm flex-shrink-0">
     <span class="navbar__item" onclick="{{hProfile}}">{{profileName}}</span>
     {{changeProfileBtn}}
   </div>

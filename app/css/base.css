@@ -1,27 +1,10 @@
-/**
- * BASE.CSS - Point d'entrée CSS
- * 
- * Ce fichier utilise @layer pour organiser les couches CSS par ordre de priorité.
- * Ordre : reset < variables < utilities < components
- * 
- * Plus vous descendez dans l'ordre, plus le style a de
- * priorité (cascading).
- */
+@import "./reset.css";
+@import "./variables.css";
+@import "./utilities.css";
+@import "./layout.css";
 
-@layer reset, variables, utilities, components;
-
-/* 1. Reset - Neutraliser les styles par défaut des navigateurs */
-@import "./reset.css" layer(reset);
-
-/* 2. Variables - Design tokens (couleurs, espacements, typo, etc.) */
-@import "./variables.css" layer(variables);
-
-/* 3. Utilities - Classes utilitaires (Atomic CSS) */
-@import "./utilities.css" layer(utilities);
-
-/* 4. Components - Styles des composants réutilisables */
-@import "../component/NavBar/style.css" layer(components);
-@import "../component/Movie/style.css" layer(components);
-@import "../component/MovieDetail/style.css" layer(components);
-@import "../component/MovieCategory/style.css" layer(components);
-@import "../component/Profile/style.css" layer(components);
+@import "../component/NavBar/style.css";
+@import "../component/Movie/style.css";
+@import "../component/MovieDetail/style.css";
+@import "../component/MovieCategory/style.css";
+@import "../component/Profile/style.css";

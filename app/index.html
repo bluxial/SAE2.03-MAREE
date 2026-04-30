@@ -27,54 +27,53 @@
 
       window.activeProfileId = null;
 
-      C.handlerAbout = function () {
+      C.handlerAbout = function() {
         alert("SAE2.03 - Application films - Édition 2025");
       };
 
-      C.handlerDetail = async function (id) {
-        try {
-          let movie = await DataMovie.requestMovieDetails(id);
-          let isFavorite = false;
-          if (window.activeProfileId) {
-            let favorites = await DataFavorite.read(window.activeProfileId);
-            isFavorite = favorites.some(function (f) { return f.id == id; });
+      C.handlerDetail = async function(id) {
+        let movie = await DataMovie.requestMovieDetails(id);
+        let isFavorite = false;
+        if (window.activeProfileId) {
+          let favorites = await DataFavorite.read(window.activeProfileId);
+          // on vérifie si le film est dans les favoris
+          for (let i = 0; i < favorites.length; i++) {
+            if (favorites[i].id == id) {
+              isFavorite = true;
+            }
           }
-          V.renderDetail(movie, isFavorite);
-        } catch (error) {
-          console.error("Erreur chargement détail:", error);
         }
+        V.renderDetail(movie, isFavorite);
       };
 
-      C.handlerAddFavorite = async function (id_movie) {
-        try {
-          let message = await DataFavorite.add(window.activeProfileId, id_movie);
-          alert(message);
-          C.loadMovies();
-        } catch (error) {
-          console.error("Erreur ajout favori:", error);
-        }
-      };
-
-      C.handlerHome = function () {
+      C.handlerAddFavorite = async function(id_movie) {
+        let message = await DataFavorite.add(window.activeProfileId, id_movie);
+        alert(message);
         C.loadMovies();
       };
 
-      C.handlerProfile = async function () {
+      C.handlerHome = function() {
+        C.loadMovies();
+      };
+
+      C.handlerProfile = async function() {
         if (window.activeProfileId) {
-          try {
-            let profiles = await DataProfile.read();
-            let profile = profiles.find(function (p) { return p.id == window.activeProfileId; });
-            let favorites = await DataFavorite.read(window.activeProfileId);
-            V.renderProfile(profile, favorites);
-          } catch (error) {
-            console.error("Erreur chargement profil:", error);
+          let profiles = await DataProfile.read();
+          // on cherche le profil actif
+          let profile = null;
+          for (let i = 0; i < profiles.length; i++) {
+            if (profiles[i].id == window.activeProfileId) {
+              profile = profiles[i];
+            }
           }
+          let favorites = await DataFavorite.read(window.activeProfileId);
+          V.renderProfile(profile, favorites);
         } else {
           C.loadProfiles();
         }
       };
 
-      C.handlerSelectProfile = function (id, name, age) {
+      C.handlerSelectProfile = function(id, name, age) {
         window.activeProfileId = id;
         window.activeProfileAge = age;
         V.renderNavBar(
@@ -82,82 +81,50 @@
           "C.handlerHome()",
           "C.handlerProfile()",
           name,
-          "<button class='navbar__change-btn' onclick='C.loadProfiles()'>Changer</button>",
+          "<button class='navbar__change-btn' onclick='C.loadProfiles()'>Changer</button>"
         );
         C.loadMovies();
       };
 
-      C.loadProfiles = async function () {
-        try {
-          let profiles = await DataProfile.read();
-          V.renderProfiles(profiles);
-        } catch (error) {
-          console.error("Erreur lors du chargement des profils:", error);
-        }
+      C.loadProfiles = async function() {
+        let profiles = await DataProfile.read();
+        V.renderProfiles(profiles);
       };
 
-      C.loadMovies = async function () {
-        try {
-          let groupedMovies = await DataMovie.requestMoviesGroupedByCategory(
-            window.activeProfileAge,
-          );
-          let favorites = null;
-          if (window.activeProfileId) {
-            favorites = await DataFavorite.read(window.activeProfileId);
-          }
-          V.renderMoviesByCategory(groupedMovies, favorites);
-        } catch (error) {
-          console.error("Erreur lors du chargement des films:", error);
-          V.renderMoviesByCategory({}, null);
+      C.loadMovies = async function() {
+        let groupedMovies = await DataMovie.requestMoviesGroupedByCategory(window.activeProfileAge);
+        let favorites = null;
+        if (window.activeProfileId) {
+          favorites = await DataFavorite.read(window.activeProfileId);
         }
+        V.renderMoviesByCategory(groupedMovies, favorites);
       };
 
-      C.start = function () {
+      C.start = function() {
         V.renderNavBar(
           "C.handlerAbout()",
           "C.handlerHome()",
           "C.handlerProfile()",
-          "Choisir un profil",
+          "Choisir un profil"
         );
         C.loadProfiles();
       };
 
       let V = {};
 
-      V.renderNavBar = function (
-        handlerAbout,
-        handlerHome,
-        handlerProfile,
-        profileName,
-      ) {
+      V.renderNavBar = function(handlerAbout, handlerHome, handlerProfile, profileName, changeProfileBtn) {
         let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(
-          handlerAbout,
-          handlerHome,
-          handlerProfile,
-          profileName,
-        );
+        header.innerHTML = NavBar.format(handlerAbout, handlerHome, handlerProfile, profileName, changeProfileBtn);
       };
 
-      V.renderProfiles = function (profiles) {
+      V.renderProfiles = function(profiles) {
         let content = document.querySelector("#content");
-        let html = "<div class='profile-list'>";
-        for (let profile of profiles) {
-          html +=
-            "<article class='profile-card' onclick=\"C.handlerSelectProfile(" +
-            profile.id +
-            ", '" +
-            profile.name +
-            "', " +
-            profile.min_age +
-            ')">';
+        let html = "<div class='profile-list flex justify-center items-center flex-wrap'>";
+        for (let i = 0; i < profiles.length; i++) {
+          let profile = profiles[i];
+          html += "<article class='profile-card cursor-pointer text-center uppercase' onclick=\"C.handlerSelectProfile(" + profile.id + ", '" + profile.name + "', " + profile.min_age + ")\">";
           if (profile.avatar) {
-            html +=
-              "<img src='../server/images/" +
-              profile.avatar +
-              "' alt='" +
-              profile.name +
-              "' />";
+            html += "<img src='../server/images/" + profile.avatar + "' alt='" + profile.name + "' />";
           }
           html += "<p>" + profile.name + "</p>";
           html += "</article>";
@@ -166,31 +133,27 @@
         content.innerHTML = html;
       };
 
-      V.renderMoviesByCategory = function (groupedMovies, favorites) {
+      V.renderMoviesByCategory = function(groupedMovies, favorites) {
         let content = document.querySelector("#content");
         let categories = Object.keys(groupedMovies);
         if (categories.length === 0) {
-          content.innerHTML =
-            "<p>Aucun film disponible pour votre tranche d'âge.</p>";
+          content.innerHTML = "<p>Aucun film disponible pour votre tranche d'âge.</p>";
           return;
         }
         let html = "";
-        for (const categoryName of categories) {
-          html += MovieCategory.format(
-            categoryName,
-            groupedMovies[categoryName],
-            favorites,
-          );
+        for (let i = 0; i < categories.length; i++) {
+          let categoryName = categories[i];
+          html += MovieCategory.format(categoryName, groupedMovies[categoryName], favorites);
         }
         content.innerHTML = html;
       };
 
-      V.renderDetail = function (movie, isFavorite) {
+      V.renderDetail = function(movie, isFavorite) {
         let content = document.querySelector("#content");
         content.innerHTML = MovieDetail.format(movie, isFavorite);
       };
 
-      V.renderProfile = function (profile, favorites) {
+      V.renderProfile = function(profile, favorites) {
         let content = document.querySelector("#content");
         content.innerHTML = Profile.format(profile, favorites);
       };

@@ -3,22 +3,26 @@ let template = await templateFile.text();
 
 let MovieDetail = {};
 
-MovieDetail.format = function (movie, isFavorite = false) {
-  let html = template;
-  html = html.replace(/{{image}}/g, "../server/images/" + movie.image);
-  html = html.replace(/{{name}}/g, movie.name);
-  html = html.replace(/{{year}}/g, movie.year);
-  html = html.replace(/{{length}}/g, movie.length);
-  html = html.replace(/{{category}}/g, movie.category);
-  html = html.replace(/{{min_age}}/g, movie.min_age);
-  html = html.replace(/{{director}}/g, movie.director);
-  html = html.replace(/{{description}}/g, movie.description);
-  html = html.replace(/{{trailer}}/g, movie.trailer);
-  let btn = isFavorite
-    ? '<button class="btn-favorite" disabled>Déjà dans vos favoris</button>'
-    : '<button class="btn-favorite" onclick="C.handlerAddFavorite(' + movie.id + ')">Ajouter aux favoris</button>';
-  html = html.replace(/{{favorite_button}}/g, btn);
-  return html;
+MovieDetail.format = function(movie, isFavorite) {
+    let html = template;
+    html = html.replace("{{image}}", "../server/images/" + movie.image);
+    html = html.replaceAll("{{name}}", movie.name);
+    html = html.replace("{{year}}", movie.year);
+    html = html.replace("{{length}}", movie.length);
+    html = html.replace("{{category}}", movie.category);
+    html = html.replace("{{min_age}}", movie.min_age);
+    html = html.replace("{{director}}", movie.director);
+    html = html.replace("{{description}}", movie.description);
+    html = html.replace("{{trailer}}", movie.trailer);
+
+    let btn = "";
+    if (isFavorite == true) {
+        btn = '<button class="btn-favorite" disabled>Déjà dans vos favoris</button>';
+    } else {
+        btn = '<button class="btn-favorite" onclick="C.handlerAddFavorite(' + movie.id + ')">Ajouter aux favoris</button>';
+    }
+    html = html.replace("{{favorite_button}}", btn);
+    return html;
 };
 
 export { MovieDetail };

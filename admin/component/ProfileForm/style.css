@@ -1,6 +1,4 @@
 #profile {
-  display: flex;
-  justify-content: center;
   padding: 1rem;
   background-color: #ffffff;
 }
@@ -12,18 +10,6 @@
   border: 1px solid #000000;
   padding: 1.25rem;
   height: auto;
-}
-
-#profile .profile-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-#profile .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 #profile .form-group label {
@@ -79,8 +65,6 @@
 }
 
 #profiles-list {
-  display: flex;
-  justify-content: center;
   padding: 1rem 1rem 2rem;
   background-color: #ffffff;
 }
@@ -89,17 +73,11 @@
   list-style: none;
   width: 100%;
   max-width: 600px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
   padding: 0;
   margin: 0;
 }
 
 #profiles-list li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 0.75rem 1rem;
   border: 1px solid #000000;
   font-size: 0.95rem;

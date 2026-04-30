@@ -8,31 +8,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-ob_start();
-
-set_exception_handler(function ($e) {
-    ob_end_clean();
-    header('Content-Type: application/json');
-    http_response_code(500);
-    echo json_encode(['error' => $e->getMessage()]);
-    exit();
-});
 error_reporting(E_ALL);
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
 require("controller.php");
 
-
+// on vérifie qu'il y a bien un paramètre todo dans la requête
 if (isset($_REQUEST['todo'])) {
 
     header('Content-Type: application/json');
 
     $todo = $_REQUEST['todo'];
 
+    // on appelle le bon controller selon la valeur de todo
     switch ($todo) {
-
 
         case 'addmovie':
             $data = addMovieController();
@@ -43,7 +33,6 @@ if (isset($_REQUEST['todo'])) {
             break;
 
         case 'readprofiles':
-
             $data = readProfilesController();
             break;
 
@@ -75,29 +64,23 @@ if (isset($_REQUEST['todo'])) {
             $data = readFavoritesController();
             break;
 
-
         default:
-            http_response_code(400); // 400 == "Bad request"
+            http_response_code(400);
             echo json_encode('[error] Unknown todo value');
             exit();
     }
 
     if ($data === false) {
-        http_response_code(500); // 500 == "Internal error"
+        http_response_code(500);
         echo json_encode('[error] Controller returns false');
         exit();
     }
 
-    http_response_code(200); // 200 == "OK"
+    http_response_code(200);
     echo json_encode($data);
     exit();
-
-
 }
 
-
-http_response_code(404); // 404 == "Not found"
-
-
+http_response_code(404);
 
 ?>

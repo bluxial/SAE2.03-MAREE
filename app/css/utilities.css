@@ -1,7 +1,14 @@
-.font-sans {
-  font-family: var(--ff-sans);
-}
+.font-sans { font-family: var(--ff-sans); }
+.font-mono { font-family: Courier, monospace; }
 
-.font-mono {
-  font-family: Courier, monospace;
-}
+.block           { display: block; }
+.w-full          { width: 100%; }
+.overflow-hidden { overflow: hidden; }
+
+.text-center { text-align: center; }
+.text-sm     { font-size: 0.875rem; }
+.font-bold   { font-weight: 700; }
+.uppercase   { text-transform: uppercase; }
+
+.cursor-pointer { cursor: pointer; }
+.object-cover   { object-fit: cover; }

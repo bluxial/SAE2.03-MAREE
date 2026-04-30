@@ -1,6 +1,6 @@
-<article class="movie-card" onclick="C.handlerDetail('{{id}}')">
-  <img src="{{image}}" alt="{{name}}" class="movie-card__image" />
-  <h2 class="movie-card__title">{{name}}</h2>
-  <p class="movie-card__category">{{category}}</p>
+<article class="movie-card flex flex-col cursor-pointer overflow-hidden" onclick="C.handlerDetail('{{id}}')">
+  <img src="{{image}}" alt="{{name}}" class="movie-card__image w-full block object-cover" />
+  <h2 class="movie-card__title flex flex-1 items-center justify-center text-center">{{name}}</h2>
+  <p class="movie-card__category text-center text-sm">{{category}}</p>
   {{favorite_button}}
 </article>

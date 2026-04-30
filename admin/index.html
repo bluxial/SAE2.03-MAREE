@@ -5,18 +5,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/base.css" />
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="../server/images/admin icon.png"
-    />
+    <link rel="icon" type="image/x-icon" href="../server/images/admin icon.png" />
   </head>
   <body>
     <section id="log"></section>
-    <section id="form"></section>
+    <section id="form" class="flex justify-center items-center"></section>
     <hr />
-    <section id="profile"></section>
-    <section id="profiles-list"></section>
+    <section id="profile" class="flex justify-center"></section>
+    <section id="profiles-list" class="flex justify-center"></section>
 
     <script type="module">
       import { Log } from "./component/Log/script.js";
@@ -27,53 +23,43 @@
 
       window.C = {};
 
-      C.start = function () {
+      C.start = function() {
         V.renderLog("Démarrage de l'application");
         V.renderMovieForm();
         V.renderProfileForm();
-        document
-          .querySelector(".btn-approve")
-          .addEventListener("click", C.addMovie);
-        document
-          .querySelector(".btn-approve-profile")
-          .addEventListener("click", C.handlerSaveProfile);
+        document.querySelector(".btn-approve").addEventListener("click", C.addMovie);
+        document.querySelector(".btn-approve-profile").addEventListener("click", C.handlerSaveProfile);
         C.loadProfiles();
       };
 
-      C.addMovie = async function () {
-        try {
-          let form = document.querySelector("#movie-form");
-          let fdata = new FormData(form);
-          let result = await DataMovie.add(fdata);
-          V.renderLog(result);
-        } catch (error) {
-          V.renderLog("Erreur : " + error.message);
-        }
+      C.addMovie = async function() {
+        let form = document.querySelector("#movie-form");
+        let fdata = new FormData(form);
+        let result = await DataMovie.add(fdata);
+        V.renderLog(result);
       };
 
-      C.handlerSaveProfile = async function () {
-        try {
-          let form = document.querySelector("#profile-form");
-          let fdata = new FormData(form);
-          let result = await DataProfile.save(fdata);
-          V.renderLog(result);
-          form.reset();
-          C.loadProfiles();
-        } catch (error) {
-          V.renderLog("Erreur : " + error.message);
+      C.handlerSaveProfile = async function() {
+        let form = document.querySelector("#profile-form");
+        let fdata = new FormData(form);
+        let id = fdata.get("id");
+        let result;
+        if (id && id !== "") {
+          result = await DataProfile.save(fdata);
+        } else {
+          result = await DataProfile.add(fdata);
         }
+        V.renderLog(result);
+        form.reset();
+        C.loadProfiles();
       };
 
-      C.loadProfiles = async function () {
-        try {
-          let profiles = await DataProfile.read();
-          V.renderProfilesList(profiles);
-        } catch (error) {
-          V.renderLog("Erreur : " + error.message);
-        }
+      C.loadProfiles = async function() {
+        let profiles = await DataProfile.read();
+        V.renderProfilesList(profiles);
       };
 
-      C.handlerSelectProfile = function (id, name, avatar, min_age) {
+      C.handlerSelectProfile = function(id, name, avatar, min_age) {
         let form = document.querySelector("#profile-form");
         form.querySelector("[name='id']").value = id;
         form.querySelector("[name='name']").value = name;
@@ -83,41 +69,30 @@
 
       window.V = {};
 
-      V.renderLog = function (txt) {
+      V.renderLog = function(txt) {
         let content = document.querySelector("#log");
         content.innerHTML = Log.format(txt);
       };
 
-      V.renderMovieForm = function () {
+      V.renderMovieForm = function() {
         let content = document.querySelector("#form");
         content.innerHTML = MovieForm.format();
       };
 
-      V.renderProfileForm = function () {
+      V.renderProfileForm = function() {
         let content = document.querySelector("#profile");
         content.innerHTML = ProfileForm.format();
       };
 
-      V.renderProfilesList = function (profiles) {
+      V.renderProfilesList = function(profiles) {
         let content = document.querySelector("#profiles-list");
-        let html = "<ul>";
-        for (let p of profiles) {
-          html +=
-            "<li>" +
-            p.name +
-            " (âge min : " +
-            p.min_age +
-            ")" +
-            ' <button onclick="C.handlerSelectProfile(' +
-            p.id +
-            ", '" +
-            p.name +
-            "', '" +
-            (p.avatar || "") +
-            "', " +
-            p.min_age +
-            ')">Modifier</button>' +
-            "</li>";
+        let html = "<ul class='flex flex-col gap-sm'>";
+        for (let i = 0; i < profiles.length; i++) {
+          let p = profiles[i];
+          html += "<li class='flex items-center justify-between'>";
+          html += p.name + " (âge min : " + p.min_age + ")";
+          html += ' <button onclick="C.handlerSelectProfile(' + p.id + ", '" + p.name + "', '" + (p.avatar || "") + "', " + p.min_age + ')">Modifier</button>';
+          html += "</li>";
         }
         html += "</ul>";
         content.innerHTML = html;

@@ -1,8 +1,8 @@
-<article class="movie-detail">
-  <div class="movie-detail__poster-wrap">
-    <img src="{{image}}" alt="{{name}}" class="movie-detail__poster" />
+<article class="movie-detail flex flex-col gap-lg">
+  <div class="movie-detail__poster-wrap flex-shrink-0 w-full">
+    <img src="{{image}}" alt="{{name}}" class="movie-detail__poster w-full object-cover" />
   </div>
-  <div class="movie-detail__info">
+  <div class="movie-detail__info flex flex-col gap-md">
     <h1 class="movie-detail__title">{{name}}</h1>
     <p class="movie-detail__meta">
       {{year}} · {{length}} min · {{category}} · {{min_age}}+

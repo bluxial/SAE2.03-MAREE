@@ -1,53 +1,59 @@
 <div class="log">
   <form
     id="movie-form"
-    class="movie-form"
+    class="movie-form flex flex-col gap-lg"
     method="post"
     action="../server/controller.php"
   >
-    <div class="form-group">
+    <div class="form-group flex flex-col gap-sm">
       <label for="name">Nom du film:</label>
       <input type="text" id="name" name="name" required />
     </div>
 
-    <div class="form-group">
+    <div class="form-group flex flex-col gap-sm">
       <label for="director">Réalisateur:</label>
       <input type="text" id="director" name="director" required />
     </div>
 
-    <div class="form-group">
+    <div class="form-group flex flex-col gap-sm">
       <label for="year">Année:</label>
       <input type="number" id="year" name="year" required />
     </div>
 
-    <div class="form-group">
+    <div class="form-group flex flex-col gap-sm">
       <label for="length">Durée (minutes):</label>
       <input type="number" id="length" name="length" required />
     </div>
 
-    <div class="form-group">
+    <div class="form-group flex flex-col gap-sm">
       <label for="description">Description:</label>
       <textarea id="description" name="description" required></textarea>
     </div>
 
-    <div class="form-group">
+    <div class="form-group flex flex-col gap-sm">
       <label for="id_category">Catégorie:</label>
       <input type="text" id="id_category" name="id_category" required />
     </div>
 
-    <div class="form-group">
+    <div class="form-group flex flex-col gap-sm">
       <label for="image">Image:</label>
       <input type="text" id="image" name="image" required />
     </div>
 
-    <div class="form-group">
+    <div class="form-group flex flex-col gap-sm">
       <label for="trailer">Bande-annonce (URL):</label>
       <input type="text" id="trailer" name="trailer" required />
     </div>
 
-    <div class="form-group">
+    <div class="form-group flex flex-col gap-sm">
       <label for="min_age">Âge minimum:</label>
-      <input type="number" id="min_age" name="min_age" required />
+      <select id="min_age" name="min_age" required>
+        <option value="0">0 ans</option>
+        <option value="6">6 ans</option>
+        <option value="12">12 ans</option>
+        <option value="16">16 ans</option>
+        <option value="18">18 ans</option>
+      </select>
     </div>
 
     <button type="button" class="btn-approve">Ajouter le film</button>
