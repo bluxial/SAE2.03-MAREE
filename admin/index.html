@@ -16,6 +16,7 @@
     <section id="form"></section>
     <hr />
     <section id="profile"></section>
+    <section id="profiles-list"></section>
 
     <script type="module">
       import { Log } from "./component/Log/script.js";
@@ -35,7 +36,8 @@
           .addEventListener("click", C.addMovie);
         document
           .querySelector(".btn-approve-profile")
-          .addEventListener("click", C.handlerAddProfile);
+          .addEventListener("click", C.handlerSaveProfile);
+        C.loadProfiles();
       };
 
       C.addMovie = async function () {
@@ -49,15 +51,33 @@
         }
       };
 
-      C.handlerAddProfile = async function () {
+      C.handlerSaveProfile = async function () {
         try {
           let form = document.querySelector("#profile-form");
           let fdata = new FormData(form);
-          let result = await DataProfile.add(fdata);
+          let result = await DataProfile.save(fdata);
           V.renderLog(result);
+          form.reset();
+          C.loadProfiles();
         } catch (error) {
           V.renderLog("Erreur : " + error.message);
         }
+      };
+
+      C.loadProfiles = async function () {
+        try {
+          let profiles = await DataProfile.read();
+          V.renderProfilesList(profiles);
+        } catch (error) {
+          V.renderLog("Erreur : " + error.message);
+        }
+      };
+
+      C.handlerSelectProfile = function (id, name, avatar, min_age) {
+        document.querySelector("#profile-id").value = id;
+        document.querySelector("#name").value = name;
+        document.querySelector("#avatar").value = avatar;
+        document.querySelector("#min_age").value = min_age;
       };
 
       window.V = {};
@@ -75,6 +95,31 @@
       V.renderProfileForm = function () {
         let content = document.querySelector("#profile");
         content.innerHTML = ProfileForm.format();
+      };
+
+      V.renderProfilesList = function (profiles) {
+        let content = document.querySelector("#profiles-list");
+        let html = "<ul>";
+        for (let p of profiles) {
+          html +=
+            "<li>" +
+            p.name +
+            " (âge min : " +
+            p.min_age +
+            ")" +
+            ' <button onclick="C.handlerSelectProfile(' +
+            p.id +
+            ", '" +
+            p.name +
+            "', '" +
+            (p.avatar || "") +
+            "', " +
+            p.min_age +
+            ')">Modifier</button>' +
+            "</li>";
+        }
+        html += "</ul>";
+        content.innerHTML = html;
       };
 
       C.start();

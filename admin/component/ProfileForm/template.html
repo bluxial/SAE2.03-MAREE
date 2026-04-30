@@ -1,5 +1,7 @@
 <div class="log">
   <form id="profile-form" class="profile-form" method="post">
+    <input type="hidden" id="profile-id" name="id" value="" />
+
     <div class="form-group">
       <label for="name">Nom du profil:</label>
       <input type="text" id="name" name="name" required />
@@ -15,6 +17,8 @@
       <input type="number" id="min_age" name="min_age" required min="0" />
     </div>
 
-    <button type="button" class="btn-approve-profile">Ajouter le profil</button>
+    <button type="button" class="btn-approve-profile">
+      Ajouter / Modifier le profil
+    </button>
   </form>
 </div>

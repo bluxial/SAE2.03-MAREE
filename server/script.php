@@ -26,7 +26,12 @@ if (isset($_REQUEST['todo'])) {
             break;
 
         case 'readprofiles':
+
             $data = readProfilesController();
+            break;
+
+        case 'saveprofile':
+            $data = saveProfileController();
             break;
 
         case 'readmoviedetail':
