@@ -1,4 +1,4 @@
-let HOST_URL = "https://mmi.unilim.fr/~maree2/SAE2.03-MAREE";
+let HOST_URL = window.location.origin;
 
 let DataProfile = {};
 
